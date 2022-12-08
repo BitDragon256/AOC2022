@@ -79,16 +79,6 @@ int main()
     }
 }
 
-void printStacks(vector<stack<char>> stacks)
-{
-    uint8_t remaining = stacks.size();
-    uint maxStack;
-    while (remaining > 0)
-    {
-
-    }
-}
-
 void Solver::part01(vector<stack<char>*> stacks, vector<uint32_t> moves)
 {
     
