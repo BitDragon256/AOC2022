@@ -111,34 +111,33 @@ bool isVisible(vec2 pos)
     uint8_t startHeight = grid[pos];
     vector<bool> visible;
 
+    bool v;
     for (vec2 dir : directions)
     {
         cur = pos + dir;
+        v = true;
         while (cur.x >= 0 && cur.x < grid.size.x && 
                cur.y >= 0 && cur.y < grid.size.y)
         {
-            cout << cur.x << " " << cur.y << " " << (int) grid[cur] << " " << (int) startHeight;
             if (grid[cur] >= startHeight)
             {
-                cout << "pushed" << endl;
-                visible.push_back(false);
+                v = false;
                 break;
             }
-            cout << endl;
 
             cur += dir;
         }
-        visible.push_back(true);
+        visible.push_back(v);
     }
 
     for (int i = 0; i < visible.size(); i++)
     {
-        if (!visible[i])
+        if (visible[i])
         {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 void Solver::part01()
