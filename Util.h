@@ -19,6 +19,7 @@ public:
             res.push_back(s.substr(0, pos));
             s.erase(0, pos + del.length());
         }
+        res.push_back(s);
         return res;
     }
 };
