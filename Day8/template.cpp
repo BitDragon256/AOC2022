@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "../Util.h"
+
 using namespace std;
 
 class Solver

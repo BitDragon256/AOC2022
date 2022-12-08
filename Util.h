@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 
+#define uint unsigned int
+
 using namespace std;
 
 class Util
@@ -21,5 +23,18 @@ public:
         }
         res.push_back(s);
         return res;
+    }
+
+    static void printStacks(vector<stack<char>*> stacks)
+    {
+        for (auto stack : stacks)
+        {
+            while (stack->size() > 0)
+            {
+                cout << stack->top();
+                stack->pop();
+            }
+            cout << "]" << endl;
+        }
     }
 };
