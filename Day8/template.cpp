@@ -140,6 +140,39 @@ bool isVisible(vec2 pos)
     return false;
 }
 
+uint viewScore(vec2 pos)
+{
+    vec2 cur;
+    uint8_t startHeight = grid[pos];
+    uint score = 1;
+
+    uint curDist;
+    for (vec2 dir : directions)
+    {
+        cur = pos + dir;
+        curDist = 1;
+        while (true)
+        {
+            if (cur.x < 0 || cur.x >= grid.size.x ||
+                cur.y < 0 || cur.y >= grid.size.y)
+            {
+                curDist--;
+                break;
+            }
+            if (grid[cur] >= startHeight)
+            {
+                break;
+            }
+
+            curDist++;
+            cur += dir;
+        }
+        score *= curDist;
+    }
+
+    return score;
+}
+
 void Solver::part01()
 {
     uint visibleCount = 0;
@@ -160,5 +193,17 @@ void Solver::part01()
 
 void Solver::part02()
 {
-    
+    uint highestScore = 0, score;
+    vec2 pos;
+    for (pos.x = 0; pos.x < grid.size.x; pos.x++)
+    {
+        for (pos.y = 0; pos.y < grid.size.y; pos.y++)
+        {
+            score = viewScore(pos);
+            if (score > highestScore)
+                highestScore = score;
+        }
+    }
+
+    cout << highestScore << endl;
 }
