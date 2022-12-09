@@ -9,10 +9,9 @@
 
 using namespace std;
 
-class Util
+namespace Util
 {
-public:
-    static vector<string> split(string s, string del)
+    vector<string> split(string s, string del)
     {
         vector<string> res;
         size_t pos;
@@ -25,7 +24,7 @@ public:
         return res;
     }
 
-    static void printStacks(vector<stack<char>*> stacks)
+    void printStacks(vector<stack<char>*> stacks)
     {
         for (auto stack : stacks)
         {
@@ -37,4 +36,24 @@ public:
             cout << "]" << endl;
         }
     }
+
+    struct vec2
+    {
+    public:
+        uint x, y;
+        vec2(uint x, uint y): x(x), y(y) {}
+        vec2(): x(0), y(0) {}
+
+        vec2 operator+ (vec2 other)
+        {
+            return vec2(this->x + other.x, this->y + other.y);
+        }
+
+        vec2& operator+=(vec2& other)
+        {
+            this->x += other.x;
+            this->y += other.y;
+            return *this;
+        }
+    };
 };
