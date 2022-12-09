@@ -6,32 +6,13 @@
 #include "../Util.h"
 
 using namespace std;
+using namespace Util;
 
 class Solver
 {
 public:
     void part01();
     void part02();
-};
-
-struct vec2
-{
-public:
-    uint x, y;
-    vec2(uint x, uint y): x(x), y(y) {}
-    vec2(): x(0), y(0) {}
-
-    vec2 operator+ (vec2 other)
-    {
-        return vec2(this->x + other.x, this->y + other.y);
-    }
-
-    vec2& operator+=(vec2& other)
-    {
-        this->x += other.x;
-        this->y += other.y;
-        return *this;
-    }
 };
 
 struct Grid
