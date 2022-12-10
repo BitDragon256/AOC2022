@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <stack>
 #include <algorithm>
+#include <math.h>
 
 #define uint unsigned int
 
@@ -40,8 +42,8 @@ namespace Util
     struct vec2
     {
     public:
-        uint x, y;
-        vec2(uint x, uint y): x(x), y(y) {}
+        long x, y;
+        vec2(long x, long y): x(x), y(y) {}
         vec2(): x(0), y(0) {}
 
         vec2 operator+ (vec2 other)
@@ -55,5 +57,35 @@ namespace Util
             this->y += other.y;
             return *this;
         }
+
+        vec2 operator-(vec2 other)
+        {
+            return vec2(this->x - other.x, this->y - other.y);
+        }
+
+        float operator/(vec2 other)
+        {
+            vec2 delta = other - *this;
+            return sqrt(delta.x * delta.x + delta.y * delta.y);
+        }
+
+        bool operator==(vec2 other)
+        {
+            return this->x == other.x && this->y == other.y;
+        }
+
+        bool operator!=(vec2 other)
+        {
+            return !(*this == other);
+        }
     };
+
+    long clamp(long a, long min, long max)
+    {
+        if (a < min)
+            return min;
+        if (a > max)
+            return max;
+        return a;
+    }
 };
