@@ -13,8 +13,6 @@
 using namespace std;
 
 bool** Display;
-const int Display_WIDTH = 40;
-const int Display_HEIGHT = 6;
 
 int Registry;
 int Cycle, NextCycle;
@@ -32,12 +30,39 @@ int OperationIndex;
 
 void UpdateDisplay();
 
+
+// Screen Constants
+namespace SC
+{
+
+    const int ScreenDist = 20;
+    const int Padding = 20;
+
+    const int DisplayTileCountX = 40;
+    const int DisplayTileCountY = 6;
+    const int DisplayTileDist = 10;
+    const int DisplayTileSize = 30;
+
+    const int DataHeight = 40;
+    const int DataDist = 10;
+    const int OperationHeight = 20;
+
+    const int ScreenHeight =    ScreenDist * 2                          +
+                                Padding * 2                             +
+                                DisplayTileDist * (DisplayTileCountY - 1)  + 
+                                DisplayTileSize * DisplayTileCountY        +
+                                DataHeight                              +
+                                OperationHeight * DisplayTileCountX         ;
+    const int ScreenWidth =     ScreenDist * 2                          +
+                                DisplayTileDist * (DisplayTileCountX - 1)   +
+                                DisplayTileSize * DisplayTileCountX         ;
+
+};
+
 int main()
 {
     // Operations Reading
     ifstream file("Operations.txt");
-
-    vector<string> Operations;
 
     if (file.is_open())
         return -1;
@@ -50,40 +75,41 @@ int main()
         Operations.push_back( Operation(splitLine[0], stoi(splitLine[1])) );
     }
 
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    InitWindow(SC::ScreenWidth, SC::ScreenHeight, "raylib [core] example - basic window");
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    SetTargetFPS(60);
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose())
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
 
+
+            // Draw the Screen
             
+            for (int x = 0; x < SC::DisplayTileCountX; x++)
+            {
+                for (int y = 0; y < SC::DisplayTileCountY; y++)
+                {
+                    DrawCircle( (float) (x) * SC::DisplayTileSize + x * SC::DisplayTileDist + SC::ScreenDist + SC::DisplayTileSize / 2,
+                                (float) (y) * SC::DisplayTileSize + y * SC::DisplayTileDist + SC::ScreenDist + SC::DisplayTileSize / 2,
+                                SC::DisplayTileSize / 2, LIGHTGRAY                                                  );
+                }
+            }
+
+            for (int i = 0; i < 3; i++)
+                DrawRectangle(  SC::ScreenDist + i * SC::ScreenWidth / 3 + i * SC::DataDist,
+                                SC::ScreenDist + SC::DisplayTileCountY * SC::DisplayTileSize + (SC::DisplayTileCountY - 1) * SC::DisplayTileDist + SC::Padding,
+                                SC::ScreenWidth / 3 - SC::ScreenDist * 2 - SC::Padding * 2,
+                                SC::DataHeight, LIGHTGRAY);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
+
+        // UpdateDisplay();
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
 
     delete[] Display;
 }
@@ -92,7 +118,7 @@ void UpdateDisplay()
 {
     Cycle++;
 
-    PixelPos = { (float) (Cycle % Display_WIDTH), (float) ((int) (Cycle / Display_HEIGHT)) };
+    PixelPos = { (float) (Cycle % SC::DisplayTileCountX), (float) ((int) (Cycle / SC::DisplayTileCountY)) };
 
     if (NextCycle > Cycle)
     {
