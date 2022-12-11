@@ -7,6 +7,8 @@
 
 #include "../Util.h"
 
+#define SOLVING
+
 using namespace std;
 
 class Solver
@@ -22,9 +24,11 @@ int main()
 
     
     Solver s;
-    s.part01();
-    // s.part02();
+    // s.part01();
+    s.part02();
 }
+
+#ifdef SOLVING
 
 vector<vector<uint64_t>> monkeys = { {53, 89, 62, 57, 74, 51, 83, 97},
                                 {85, 94, 97, 92, 56},
@@ -66,12 +70,18 @@ vector<int> monFalses = {
     5, 2, 4, 6, 6, 4, 0, 1
 };
 
-/*
-vector<vector<uint64_t>> monkeys = { {79, 98},
-                                {54, 65, 75, 74},
-                                {79, 60, 97},
-                                {74}
-                              };
+uint64_t mod = 9699690;
+
+#endif
+
+#ifdef TESTING
+
+vector<vector<uint64_t>> monkeys = {
+    {79, 98},
+    {54, 65, 75, 74},
+    {79, 60, 97},
+    {74}
+};
 
 vector<function<uint64_t(uint64_t)>> ops = {
     [](uint64_t item) { return item * 19  ; },
@@ -94,7 +104,10 @@ vector<int> monTrues = {
 vector<int> monFalses = {
     3, 0, 3, 1
 };
-*/
+
+uint64_t mod = 23 * 19 * 13 * 17;
+
+#endif
 
 void monkey(int index)
 {
@@ -123,6 +136,7 @@ void monkeyWorried(int index)
         monkeys[index].erase(monkeys[index].begin());
 
         item = ops[index](item);
+        item = item % mod;
 
         if (tests[index](item))
             monkeys[monTrues[index]].push_back(item);
@@ -172,25 +186,27 @@ void Solver::part01()
 
 void Solver::part02()
 {
-    int* monkeyActivity = new int[monkeys.size()];
+    uint64_t* monkeyActivity = new uint64_t[monkeys.size()];
     for (int i = 0; i < monkeys.size(); i++)
     {
         monkeyActivity[i] = 0;
     }
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < 10000; i++)
     {
         for (int j = 0; j < monkeys.size(); j++)
         {
             monkeyActivity[j] += monkeys[j].size();
 
-            monkey(j);
+            monkeyWorried(j);
         }
 
+        if (i != 0 && i != 19 && (i + 1) % 1000 != 0)
+            continue;
         for (int j = 0; j < monkeys.size(); j++)
         {
-            cout << "monkey " << j << ": ";
-            for (int i : monkeys[j])
+            cout << "monkey " << j << " inspected " << monkeyActivity[j] << " items : ";
+            for (uint64_t i : monkeys[j])
             {
                 cout << i << ", ";
             }
