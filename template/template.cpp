@@ -22,20 +22,15 @@ int main()
     vector<string> input;
 
     if (file.is_open())
+        return -1;
+    string line;
+    while (getline(file, line))
     {
-        string line;
-        while (getline(file, line))
-        {
-            input.push_back(line);
-        }
-        Solver s;
-        s.part01(input);
-        s.part02(input);
+        input.push_back(line);
     }
-    else
-    {
-        cout << "error with file" << endl;
-    }
+    Solver s;
+    s.part01(input);
+    s.part02(input);
 }
 
 void Solver::part01(vector<string> input)
