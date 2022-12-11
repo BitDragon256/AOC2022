@@ -1,5 +1,5 @@
 
-set(source_files raygui.h)
+set(source_files Z:\PC\Dev\Several_Languages\C++\Libraries\raygui.h)
 
 add_library(raygui ${source_files})
 
