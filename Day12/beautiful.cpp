@@ -112,16 +112,27 @@ public:
         }
     }
 
-    iterator begin() { return &data[0]; }
-    const_iterator begin() const { return &data[0]; }
-    iterator end() { return &data[size]; }
-    const_iterator end() const { return &data[size]; }
+    ~Grid()
+    {
+        for (long i = 0; i < size.x; i++)
+        {
+            delete[] data[i];
+        }
+        delete[] data;
+    }
+
+    operator[](vec2 pos)
+    {
+        return data[pos.x][pos.y];
+    }
+
+    void set(vec2 pos, T data)
+    {
+        data[pos.x][pos.y] = data;
+    }
+
+    
 };
-
-uint shortestPath()
-{
-
-}
 
 void Solver::part01(vector<string> input)
 {
