@@ -22,7 +22,19 @@ int main()
 {
     cout << "Starting" << endl;
 
-    
+    ifstream file("input.txt");
+
+    vector<string> input;
+
+    if (!file.is_open())
+        return -1;
+
+    string line;
+    while (getline(file, line))
+    {
+        input.push_back(line);
+    }
+
     Solver s;
     // s.part01();
     s.part02();
@@ -30,15 +42,16 @@ int main()
 
 #ifdef SOLVING
 
-vector<vector<uint64_t>> monkeys = { {53, 89, 62, 57, 74, 51, 83, 97},
-                                {85, 94, 97, 92, 56},
-                                {86, 82, 82},
-                                {94, 68},
-                                {83, 62, 74, 58, 96, 68, 85},
-                                {50, 68, 95, 82},
-                                {75},
-                                {92, 52, 85, 89, 68, 82}
-                              };
+vector<vector<uint64_t>> monkeys = {
+    {53, 89, 62, 57, 74, 51, 83, 97},
+    {85, 94, 97, 92, 56},
+    {86, 82, 82},
+    {94, 68},
+    {83, 62, 74, 58, 96, 68, 85},
+    {50, 68, 95, 82},
+    {75},
+    {92, 52, 85, 89, 68, 82}
+};
 
 vector<function<uint64_t(uint64_t)>> ops = {
     [](uint64_t item) { return item * 3   ; },
