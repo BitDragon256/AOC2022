@@ -13,8 +13,8 @@ using namespace std;
 class Solver
 {
 public:
-    void part01(vector<string>);
-    void part02(vector<string>);
+    void part01(vector<json>);
+    void part02(vector<json>);
 };
 
 int main()
@@ -23,7 +23,7 @@ int main()
 
     ifstream file("input.txt");
 
-    vector<string> input;
+    vector<json> packages;
 
     if (!file.is_open())
     {
@@ -38,12 +38,12 @@ int main()
             continue;
         }
         
-        input.push_back(line);
+        packages.push_back(json::parse(line));
     }
 
     Solver s;
-    s.part01(input);
-    s.part02(input);
+    s.part01(packages);
+    s.part02(packages);
 }
 
 int8_t dirComp(json left, json right)
@@ -58,14 +58,13 @@ int8_t dirComp(json left, json right)
 int8_t compare(json left, json right)
 {
     
-    cout << "Comparing " << left << " (" << (left.is_number() ? "number" : "list") << ") and "
-                         << right << " (" << (right.is_number() ? "number" : "list") << ")" << endl;
+    // cout << "Comparing " << left << " (" << (left.is_number() ? "number" : "list") << ") and "
+    //                      << right << " (" << (right.is_number() ? "number" : "list") << ")" << endl;
     
 
     if (left.is_number() && right.is_number())
-    {
         return dirComp(left, right);
-    }
+
     if (left.is_array() && right.is_array())
     {
         int8_t res;
@@ -83,53 +82,52 @@ int8_t compare(json left, json right)
         return -1;
     }
     if (left.is_number())
-    {
-        // if (right.size() > 1)
-        //     return 1;
-        // if (right.size() == 0)
-        //     return -1;
-        // return dirComp(left, right.at(0));
-
         return compare(json::array( { left } ), right);
-    }
-
-    // if (left.size() > 1)
-    //     return -1;
-    // if (left.size() == 0)
-    //         return 1;
-    // return dirComp(left.at(0), right);
 
     return compare(left, json::array( { right } ));
 }
 
-void Solver::part01(vector<string> input)
+void Solver::part01(vector<json> packages)
 {
     uint sum = 0;
 
-    string line, nextLine;
-    for (int i = 1; i < input.size(); i += 2)
+    json right, left;
+    for (int i = 1; i < packages.size(); i += 2)
     {
-        line = input[i - 1], nextLine = input[i];
-        //cout << i << endl << line << endl << nextLine << endl;
+        left = packages[i - 1];
+        right = packages[i];
 
-        json right, left;
-        left = json::parse(line);
-        right = json::parse(nextLine);
+        //cout << ((i + 1) / 2) << ": ";
 
-        cout << ((i + 1) / 2) << ": ";
         if (compare(left, right) == -1)
         {
-            cout << "Wrong Order | " << sum << endl;
+            //cout << "Wrong Order | " << sum << endl;
+
             continue;
         }
         sum += (i + 1) / 2;
-        cout << "Right Order | " << sum << endl;
+
+        //cout << "Right Order | " << sum << endl;
     }
 
     cout << "Part 1: " << sum << endl;
 }
 
-void Solver::part02(vector<string> input)
+void Solver::part02(vector<json> packages)
 {
-    
+    uint8_t key1 = 1, key2 = 2;
+    int8_t res;
+    json divPack1 = json::parse("[[2]]"), divPack2 = json::parse("[[6]]");
+    for (json j : packages)
+    {
+        res = compare(j, divPack1);
+        if (res == 1)
+            key1++;
+        
+        res = compare(j, divPack2);
+        if (res == 1)
+            key2++;
+    }
+
+    cout << "Part 2: " << key1 * key2 << endl;
 }
