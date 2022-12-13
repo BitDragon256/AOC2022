@@ -21,7 +21,7 @@ int main()
 
     vector<string> input;
 
-    if (file.is_open())
+    if (!file.is_open())
         return -1;
     string line;
     while (getline(file, line))
