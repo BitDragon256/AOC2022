@@ -57,11 +57,6 @@ int8_t dirComp(json left, json right)
 
 int8_t compare(json left, json right)
 {
-    
-    // cout << "Comparing " << left << " (" << (left.is_number() ? "number" : "list") << ") and "
-    //                      << right << " (" << (right.is_number() ? "number" : "list") << ")" << endl;
-    
-
     if (left.is_number() && right.is_number())
         return dirComp(left, right);
 
@@ -97,17 +92,10 @@ void Solver::part01(vector<json> packages)
         left = packages[i - 1];
         right = packages[i];
 
-        //cout << ((i + 1) / 2) << ": ";
-
         if (compare(left, right) == -1)
-        {
-            //cout << "Wrong Order | " << sum << endl;
-
             continue;
-        }
-        sum += (i + 1) / 2;
 
-        //cout << "Right Order | " << sum << endl;
+        sum += (i + 1) / 2;
     }
 
     cout << "Part 1: " << sum << endl;
