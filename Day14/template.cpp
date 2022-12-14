@@ -10,11 +10,14 @@ using namespace Util;
 class Solver
 {
 public:
-    void part01(vector<uint8_t>);
-    void part02(vector<uint8_t>);
+    void part01();
+    void part02();
 };
 
-vector<vector<uint8_t>> grid;
+bool* grid;
+const vec2 gridSize = vec2(521 - 460 + 1, 166 + 1);
+const vec2 completeGridSize = vec2(150, 166 + 1 + 2);
+//const vec2 gridSize = vec2(10, 10);
 
 int main()
 {
@@ -42,9 +45,39 @@ int main()
         for (string coord : rockLine)
         {
             split = Util::split(coord, ",");
-            coords[coords.size() - 1].push_back( vec2(stoi(split[0]) - 460, stoi(split[1]) - 13) ); // X: 460 - 521 | Y: 13 - 166
+            coords[coords.size() - 1].push_back( vec2(stoi(split[0]) - 460, stoi(split[1])) ); // X: 460 - 521 | Y: 166
         }
     }
+
+    grid = new bool[gridSize.x * gridSize.y];
+    for (int i = 0; i < gridSize.x * gridSize.y; i++)
+    {
+        grid[i] = false;
+    }
+
+    vec2 minPos, maxPos;
+    for (vector<vec2> rock : coords)
+    {
+        for (int i = 1; i < rock.size(); i++)
+        {
+            maxPos = vec2::max(rock[i - 1], rock[i]);
+            minPos = vec2::min(rock[i - 1], rock[i]);
+            for (int x = minPos.x; x <= maxPos.x; x++)
+            {
+                for (int y = minPos.y; y <= maxPos.y; y++)
+                {
+                    grid[x + y * gridSize.x] = true;
+                }
+            }
+        }
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            grid[x + (gridSize.y - 1) * gridSize.x] = true;
+        }
+    }
+
+    // delete[] grid;
+    // return 0;
 
     // uint minX = 10000; uint maxX = 0; uint minY = 10000; uint maxY = 0;
     // for (vec2 v : coords)
@@ -63,16 +96,123 @@ int main()
     // cout << minX << " " << maxX << endl << minY << " " << maxY << endl;
 
     Solver s;
-    // s.part01(input);
-    // s.part02(input);
+    //s.part01();
+    s.part02();
+
+    delete[] grid;
 }
 
-void Solver::part01(vector<uint8_t> input)
+void printGrid(vec2 sand)
 {
-    
+    string s;
+    cin >> s;
+    cout << endl << endl;
+
+    for (int i = 0; i < gridSize.x * gridSize.y; i++)
+    {
+        if (i % gridSize.x == 0)
+            cout << endl;
+
+        if (i == sand.x + sand.y * gridSize.x)
+        {
+            cout << "o";
+            continue;
+        }
+
+        cout << (grid[i] ? "#" : ".");
+    }
 }
 
-void Solver::part02(vector<uint8_t> input)
+void Solver::part01()
 {
-    
+    vec2 sandStart = vec2(500 - 460, 0);
+    //vec2 sandStart = vec2(500 - 494, 0);
+    vec2 sand = sandStart;
+    uint sandCount = 0;
+    uint8_t state = 0;
+
+    while (true)
+    {
+        //printGrid(sand);
+        switch (state)
+        {
+            case 0:
+                sand.y += 1;
+                break;
+            case 1:
+                sand.x--;
+                break;
+            case 2:
+                sand.x += 2;
+                break;
+            case 3:
+                sand.y--;
+                sand.x--;
+
+                //printGrid(sand);
+
+                grid[sand.x + sand.y * gridSize.x] = true;
+                sand = sandStart;
+                sandCount++;
+                state = 0;
+                break;
+        }
+        
+        if (sand.y >= gridSize.y)
+            break;
+        if (grid[sand.x + sand.y * gridSize.x])
+        {
+            state++;
+            continue;
+        }
+        state = 0;
+    }
+    cout << sandCount << endl;
+}
+
+void Solver::part02()
+{
+    vec2 sandStart = vec2(500 - 460, 0);
+    //vec2 sandStart = vec2(500 - 494, 0);
+    vec2 sand = sandStart;
+    uint sandCount = 0;
+    uint8_t state = 0;
+
+    while (true)
+    {
+        //printGrid(sand);
+        switch (state)
+        {
+            case 0:
+                sand.y += 1;
+                break;
+            case 1:
+                sand.x--;
+                break;
+            case 2:
+                sand.x += 2;
+                break;
+            case 3:
+                sand.y--;
+                sand.x--;
+
+                //printGrid(sand);
+
+                grid[sand.x + sand.y * gridSize.x] = true;
+                sand = sandStart;
+                sandCount++;
+                state = 0;
+                break;
+        }
+        
+        if (sand.y >= gridSize.y)
+            break;
+        if (grid[sand.x + sand.y * gridSize.x])
+        {
+            state++;
+            continue;
+        }
+        state = 0;
+    }
+    cout << sandCount << endl;
 }
