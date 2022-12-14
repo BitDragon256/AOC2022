@@ -77,6 +77,21 @@ namespace Util
         {
             return !(*this == other);
         }
+
+        static vec2 min(vec2 a, vec2 b)
+        {
+            return vec2(std::min(a.x, b.x), std::min(a.y, b.y));
+        }
+
+        static vec2 max(vec2 a, vec2 b)
+        {
+            return vec2(std::max(a.x, b.x), std::max(a.y, b.y));
+        }
+
+        long sqrMagnitude()
+        {
+            return x * y;
+        }
     };
 
     long clamp(long a, long min, long max)
@@ -86,5 +101,25 @@ namespace Util
         if (a > max)
             return max;
         return a;
+    }
+
+    long min(long a, long b)
+    {
+        if (a > b)
+            return b;
+        return a;
+    }
+
+    long max(long a, long b)
+    {
+        if (a < b)
+            return b;
+        return a;
+    }
+
+    ostream& operator<< (ostream& os, vec2& v)
+    {
+        os << "x: " << v.x << " y: " << v.y << " square mag: " << v.sqrMagnitude() << endl;
+        return os;
     }
 };
