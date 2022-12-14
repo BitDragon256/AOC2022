@@ -15,9 +15,11 @@ public:
 };
 
 bool* grid;
-const vec2 gridSize = vec2(521 - 460 + 1, 166 + 1);
-const vec2 completeGridSize = vec2(150, 166 + 1 + 2);
+const vec2 gridSize = vec2(400, 166 + 1 + 2);
+const int delta = gridSize.x / 2 - 61;
 //const vec2 gridSize = vec2(10, 10);
+
+void printGrid(vec2);
 
 int main()
 {
@@ -45,7 +47,7 @@ int main()
         for (string coord : rockLine)
         {
             split = Util::split(coord, ",");
-            coords[coords.size() - 1].push_back( vec2(stoi(split[0]) - 460, stoi(split[1])) ); // X: 460 - 521 | Y: 166
+            coords[coords.size() - 1].push_back( vec2(stoi(split[0]) - 460 + delta, stoi(split[1])) ); // X: 460 - 521 | Y: 166
         }
     }
 
@@ -70,11 +72,14 @@ int main()
                 }
             }
         }
-        for (int x = 0; x < gridSize.x; x++)
-        {
-            grid[x + (gridSize.y - 1) * gridSize.x] = true;
-        }
     }
+    for (int x = 0; x < gridSize.x; x++)
+    {
+        int y = gridSize.y - 1;
+        grid[x + y * gridSize.x] = true;
+    }
+
+    printGrid(vec2(0, 0));
 
     // delete[] grid;
     // return 0;
@@ -96,8 +101,8 @@ int main()
     // cout << minX << " " << maxX << endl << minY << " " << maxY << endl;
 
     Solver s;
-    //s.part01();
-    s.part02();
+    s.part01();
+    //s.part02();
 
     delete[] grid;
 }
@@ -125,7 +130,7 @@ void printGrid(vec2 sand)
 
 void Solver::part01()
 {
-    vec2 sandStart = vec2(500 - 460, 0);
+    vec2 sandStart = vec2(500 - 460 + delta, 0);
     //vec2 sandStart = vec2(500 - 494, 0);
     vec2 sand = sandStart;
     uint sandCount = 0;
@@ -158,8 +163,12 @@ void Solver::part01()
                 break;
         }
         
-        if (sand.y >= gridSize.y)
+        // if (sand.y >= gridSize.y)
+        if (grid[sandStart.x + sandStart.y * gridSize.x])
+        {
+            printGrid(vec2(0, 0));
             break;
+        }
         if (grid[sand.x + sand.y * gridSize.x])
         {
             state++;
@@ -172,47 +181,5 @@ void Solver::part01()
 
 void Solver::part02()
 {
-    vec2 sandStart = vec2(500 - 460, 0);
-    //vec2 sandStart = vec2(500 - 494, 0);
-    vec2 sand = sandStart;
-    uint sandCount = 0;
-    uint8_t state = 0;
-
-    while (true)
-    {
-        //printGrid(sand);
-        switch (state)
-        {
-            case 0:
-                sand.y += 1;
-                break;
-            case 1:
-                sand.x--;
-                break;
-            case 2:
-                sand.x += 2;
-                break;
-            case 3:
-                sand.y--;
-                sand.x--;
-
-                //printGrid(sand);
-
-                grid[sand.x + sand.y * gridSize.x] = true;
-                sand = sandStart;
-                sandCount++;
-                state = 0;
-                break;
-        }
-        
-        if (sand.y >= gridSize.y)
-            break;
-        if (grid[sand.x + sand.y * gridSize.x])
-        {
-            state++;
-            continue;
-        }
-        state = 0;
-    }
-    cout << sandCount << endl;
+    
 }
