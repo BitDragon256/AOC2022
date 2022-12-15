@@ -72,9 +72,9 @@ int main()
 
     //cout << "Span: " << span.x << " " << span.y << endl;
     cout << "Span: " << span << endl;
-    cout << "Gridsize: " << gridSize.x << " " << gridSize.y << " " << gridSize.sqrMagnitude() << endl;
+    cout << "Gridsize: " << gridSize << endl;
     cout << "Delta: " << delta << endl;
-    cout << "Sandstart: " << sandStart.x << " " << sandStart.y << endl;
+    cout << "Sandstart: " << sandStart << endl;
 
     grid = new bool[gridSize.sqrMagnitude()];
     for (int i = 0; i < gridSize.sqrMagnitude(); i++)

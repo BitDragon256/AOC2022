@@ -119,7 +119,7 @@ namespace Util
 
     ostream& operator<< (ostream& os, vec2& v)
     {
-        os << "x: " << v.x << " y: " << v.y << " square mag: " << v.sqrMagnitude() << endl;
+        os << "x: " << v.x << " y: " << v.y;
         return os;
     }
 };
