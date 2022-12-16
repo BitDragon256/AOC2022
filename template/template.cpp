@@ -1,17 +1,26 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+
 #include <string>
 #include <vector>
+
 #include "../Util.h"
 
 using namespace std;
 
 class Solver
 {
+private:
+    stringstream sol1, sol2;
 public:
-    void part01(vector<string>);
-    void part02(vector<string>);
+    void part01();
+    void part02();
+
+    void printResult();
 };
+
+vector<string> input;
 
 int main()
 {
@@ -19,26 +28,38 @@ int main()
 
     ifstream file("input.txt");
 
-    vector<string> input;
 
     if (!file.is_open())
         return -1;
     string line;
     while (getline(file, line))
     {
+        // TODO input parsing
         input.push_back(line);
     }
     Solver s;
-    s.part01(input);
-    s.part02(input);
+
+    s.part01();
+    s.part02();
+
+    s.printResult();
 }
 
-void Solver::part01(vector<string> input)
+void Solver::part01()
 {
-    
+    // TODO solving part 1
+
+    sol1 << "not finished";
 }
 
-void Solver::part02(vector<string> input)
+void Solver::part02()
 {
-    
+    // TODO solving part 2
+
+    sol2 << "not finished";
+}
+
+void Solver::printResult()
+{
+    cout << "Part 1: " << sol1.str() << endl << "Part 2:" << sol2.str() << endl;
 }
