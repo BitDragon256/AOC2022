@@ -21,9 +21,27 @@ vector<vec2> startPositions;
 vec2 startPos;
 vec2 finalPos;
 
-int main()
+void day12()
 {
     cout << "Starting" << endl;
+
+    /*
+    ifstream file("input.txt");
+
+    vector<string> input;
+
+    if (file.is_open())
+    {
+        cerr << "File error" << endl;
+        return -1;
+    }
+    string line;
+    while (getline(file, line))
+    {
+        cout << line << endl;
+        input.push_back(line);
+    }
+    */
 
     vector<string> input;
     string line;
@@ -32,6 +50,7 @@ int main()
         getline(cin, line);
         if (line == "stop")
             break;
+        //cout << line << endl;
         input.push_back(line);
     }
 
@@ -55,7 +74,9 @@ int main()
                 s.at(i) = 'z';
             }
             if (s.at(i) == 'a')
+            {
                 startPositions.push_back(pos);
+            }
 
             elevation[elevation.size() - 1].push_back(s.at(i));
             pos.x++;
@@ -67,7 +88,7 @@ int main()
     originalElevation = elevation;
 
     Solver s;
-    s.part01(input);
+    //s.part01(input);
     s.part02(input);
 }
 
@@ -97,45 +118,45 @@ void printMap(vec2 cur)
     cout << endl;
 }
 
-template <typename T>
-struct Grid
+/*
+uint findPath(vec2 current, uint steps)
 {
-public:
-    T** data;
-    vec2 size;
-    Grid(vec2 size): size(size)
-    {
-        data = new T*[size.x];
-        for (int i = 0; i < size.x; i++)
-        {
-            data[i] = new T[size.y];
-        }
-    }
-
-    ~Grid()
-    {
-        for (long i = 0; i < size.x; i++)
-        {
-            delete[] data[i];
-        }
-        delete[] data;
-    }
-
-    operator[](vec2 pos)
-    {
-        return data[pos.x][pos.y];
-    }
-
-    void set(vec2 pos, T data)
-    {
-        data[pos.x][pos.y] = data;
-    }
-
+    //printMap();
+    if (current == finalPos)
+        return steps;
     
-};
+    cout << current.x << " " << current.y << " " << steps << endl;
+
+    vec2 nextPos;
+    uint8_t height = elevation[current.y][current.x];
+    elevation[current.y][current.x] = UINT8_MAX;
+    int path;
+
+    for (vec2 dir : directions)
+    {
+        nextPos = current + dir;
+        if (elevation[nextPos.y][nextPos.x] <= height + 1)
+        {
+            path = findPath(nextPos, steps + 1);
+        }
+    }
+
+    return path;
+}
+*/
 
 void Solver::part01(vector<string> input)
 {
+    cout << startPos.x << " " << startPos.y << endl;
+    cout << finalPos.x << " " << finalPos.y << endl;
+    
+    // vector<vec2> positions = vector<vec2>();
+    // vector<uint> paths = vector<uint>();
+
+    uint steps = 0;
+    // positions.push_back(startPos);
+    // paths.push_back(0);
+
     vec2* positions = new vec2[100000];
     uint* paths = new uint[100000];
 
@@ -147,6 +168,7 @@ void Solver::part01(vector<string> input)
     vec2 pos, newPos;
     uint path;
     uint index = 0;
+    // while (index < positions.size() && index < paths.size())
     while (index <= posIndex)
     {
         pos = positions[index];
@@ -158,13 +180,17 @@ void Solver::part01(vector<string> input)
 
         if (pos == finalPos)
         {
-            cout << "Path found: " << path << endl;
+            steps = path;
+            cout << "Path found" << endl;
             break;
         }
 
         bool b = false;
         for (vec2 d : directions)
         {
+            // positions.push_back(pos + d);
+            // paths.push_back(path + 1);
+
             newPos = pos + d;
             if (newPos.y < 0 || newPos.y >= elevation.size() ||
                 newPos.x < 0 || newPos.x >= elevation[0].size() ||
@@ -179,16 +205,23 @@ void Solver::part01(vector<string> input)
             if (elevation[pos.y][pos.x] < elevation[newPos.y][newPos.x] - 1)
                 continue;
 
+            //cout << elevation[newPos.y][newPos.x] - elevation[pos.y][pos.x] << endl;
+
             positions[posIndex] = pos + d;
             paths[posIndex] = path + 1;
             posIndex++;
             b = true;
         }
-
+        //if (b)
+        //    printMap(pos);
+        
         elevation[pos.y][pos.x] = UINT8_MAX;
+        // cout << index << " " << positions.size() << " " << paths.size() << endl;
     }
     delete[] positions;
     delete[] paths;
+
+    cout << "Steps: " << steps << endl;
 }
 
 void Solver::part02(vector<string> input)
@@ -218,11 +251,15 @@ void Solver::part02(vector<string> input)
         {
             pos = positions[index];
             path = paths[index];
+
+            // cout << pos.x << " " << pos.y << " " << path << " " << index << endl;
+
             index++;
 
             if (pos == finalPos)
             {
                 steps.push_back(path);
+                //cout << "Path found: " << path << endl;
                 break;
             }
 

@@ -25,6 +25,30 @@ namespace Util
         return res;
     }
 
+    vector<string> splitMulti(string s, vector<string> dels)
+    {
+        vector<string> res;
+        res.push_back(s);
+        size_t pos;
+        size_t size;
+        for (string del : dels)
+        {
+            size = res.size();
+            for (int i = 0; i < size; i++)
+            {
+                while ((pos = res[i].find(del)) != string::npos)
+                {
+                    res.push_back(res[i].substr(0, pos));
+                    res[i].erase(0, pos + del.length());
+                }
+                if (res[i] != "")
+                    res.push_back(res[i]);
+            }
+            res.erase(res.begin(), res.begin() + size);
+        }
+        return res;
+    }
+
     void printStacks(vector<stack<char>*> stacks)
     {
         for (auto stack : stacks)
@@ -92,8 +116,14 @@ namespace Util
         {
             return x * y;
         }
+
+        vec2 oneDown()
+        {
+            return vec2(x, y - 1);
+        }
     };
 
+    /*
     long clamp(long a, long min, long max)
     {
         if (a < min)
@@ -116,10 +146,11 @@ namespace Util
             return b;
         return a;
     }
+    */
 
     ostream& operator<< (ostream& os, vec2& v)
     {
-        os << "x: " << v.x << " y: " << v.y;
+        os << "(" << v.x << ", " << v.y << ")";
         return os;
     }
 };

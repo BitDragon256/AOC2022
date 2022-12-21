@@ -12,11 +12,11 @@ public:
     void part02(string);
 };
 
-int main()
+void day6()
 {
     cout << "Starting" << endl;
 
-    ifstream file("input.txt");
+    ifstream file("Day6/input.txt");
 
     string input;
 

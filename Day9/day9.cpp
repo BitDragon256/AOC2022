@@ -20,7 +20,7 @@ public:
     void part02(vector<string>);
 };
 
-int main()
+void day9()
 {
     cout << "Starting" << endl;
 

@@ -20,7 +20,7 @@ vec2 sandStart;
 
 void printGrid(vec2);
 
-int main()
+int day14()
 {
     cout << "Starting" << endl;
 

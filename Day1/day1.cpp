@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main()
+void day1()
 {
     cout << "start" << endl;
 

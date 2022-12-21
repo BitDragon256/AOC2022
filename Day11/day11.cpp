@@ -18,7 +18,7 @@ public:
     void part02();
 };
 
-int main()
+int day11()
 {
     cout << "Starting" << endl;
 

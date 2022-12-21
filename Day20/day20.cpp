@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "../Util.h"
-
 using namespace std;
 
 class Solver
@@ -20,9 +18,9 @@ public:
     void printResult();
 };
 
-vector<string> input;
+vector<int> input;
 
-int dayX(int argc, char** argv)
+int day20(int argc, char** argv)
 {
     cout << "Starting" << endl;
 
@@ -31,13 +29,14 @@ int dayX(int argc, char** argv)
         inputFile = argv[1];
     ifstream file(inputFile);
 
+
     if (!file.is_open())
         return -1;
     string line;
     while (getline(file, line))
     {
         // TODO input parsing
-        input.push_back(line);
+        input.push_back(stoi(line));
     }
     Solver s;
 
@@ -50,6 +49,8 @@ int dayX(int argc, char** argv)
 void Solver::part01()
 {
     // TODO solving part 1
+
+    vector<int> indeces;
 
     sol1 << "not finished";
 }

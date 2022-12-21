@@ -15,7 +15,7 @@ public:
     void part02(vector<stack<char>*> stacks, vector<uint32_t> moves);
 };
 
-int main()
+void day5()
 {
     cout << "Starting" << endl;
 

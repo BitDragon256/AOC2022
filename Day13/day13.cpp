@@ -17,7 +17,7 @@ public:
     void part02(vector<json>);
 };
 
-int main()
+int day13()
 {
     cout << "Starting" << endl;
 

@@ -20,24 +20,24 @@ public:
     void printResult();
 };
 
-vector<string> input;
-
-int dayX(int argc, char** argv)
+int day19()
 {
     cout << "Starting" << endl;
 
-    string inputFile = "input.txt";
-    if (argc > 1)
-        inputFile = argv[1];
-    ifstream file(inputFile);
+    ifstream file("input.txt");
+
 
     if (!file.is_open())
         return -1;
     string line;
+    vector<string> split;
+    
     while (getline(file, line))
     {
         // TODO input parsing
-        input.push_back(line);
+        split = Util::split(line, " ");
+        
+
     }
     Solver s;
 
@@ -50,6 +50,8 @@ int dayX(int argc, char** argv)
 void Solver::part01()
 {
     // TODO solving part 1
+
+    
 
     sol1 << "not finished";
 }

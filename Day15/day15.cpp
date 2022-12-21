@@ -15,7 +15,7 @@ public:
     void part02(vector<string>);
 };
 
-int main()
+int day15()
 {
     cout << "Starting" << endl;
 

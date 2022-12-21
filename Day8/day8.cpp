@@ -47,7 +47,7 @@ public:
     }
 } grid;
 
-int main()
+void day8()
 {
     cout << "Starting" << endl;
 

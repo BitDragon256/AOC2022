@@ -240,7 +240,7 @@ Node* Node::generateTree(vector<string> input)
     return tree;
 }
 
-int main()
+void day7()
 {
     cout << "Starting" << endl;
 
